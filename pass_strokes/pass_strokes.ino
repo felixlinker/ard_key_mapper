@@ -15,12 +15,12 @@ void Parser::OnControlKeysChanged(uint8_t before, uint8_t after) {
 };
 
 void Parser::OnKeyDown(uint8_t mod, uint8_t key) {
-  Serial.write(0);
+  Serial.write(1);
   Serial.write(key);
 };
 
 void Parser::OnKeyUp(uint8_t mod, uint8_t key) {
-  Serial.write(1);
+  Serial.write(0);
   Serial.write(key);
 };
 
