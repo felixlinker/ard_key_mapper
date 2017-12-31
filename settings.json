@@ -1,0 +1,12 @@
+{
+    "serial_port": "COM3",
+    "key_map": {
+        "name": {
+            "down": {
+                "ctrl": "00000000",
+                "status_code": 20
+            },
+            "send": "shift+a"
+        }
+    }
+}
