@@ -47,10 +47,7 @@ if __name__ == '__main__':
         handle_arguments = load_settings_json(settings_fp)
         threading.Thread(target=handle_serial_input, daemon=True, args=handle_arguments).start()
 
-    help_str = 'If you want to exit the program enter: exit'
-    print(help_str)
-    cmd = input()
     while True:
+        cmd = input('If you want to exit the program enter: exit\n')
         if cmd == 'exit':
             break
-        cmd = input(help_str + '\n')
