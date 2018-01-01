@@ -1,5 +1,8 @@
 {
     "serial_port": "COM3",
+    "default_event": {
+        "delay": 0.02
+    },
     "key_map": {
         "name": {
             "down": {

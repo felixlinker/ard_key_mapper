@@ -5,22 +5,40 @@ import time
 import serial
 import keyboard
 
+def get_default_event(default_settings={}):
+    default = {
+        'down': {'ctrl': '00000000', },
+        'up': {'ctrl': '00000000', },
+        'delay': 0,
+    }
+    default['down'].update(default_settings.pop('down', {}))
+    default['up'].update(default_settings.pop('up', {}))
+    default.update(default_settings)
+
+    return (default, default.pop('down'), default.pop('up'))
+
 def load_settings_json(filepointer):
     settings = json.load(filepointer)
+    default_event, default_down, default_up = get_default_event(settings.get('default_event', {}))
+
     down_map = dict()
     up_map = dict()
-    for _, entry in settings['key_map'].items():
+    for _, org_entry in settings['key_map'].items():
+        entry = default_event.copy()
+        entry.update(org_entry)
         try:
-            event = entry['down']
+            event = default_down.copy()
+            event.update(entry['down'])
             m = down_map
         except KeyError:
-            event = entry['up']
+            event = default_up.copy()
+            event.update(entry['up'])
             m = up_map
 
         map_key = (int(event['ctrl'], 2), event['status_code'])
         m[map_key] = {
             'combination': entry['send'],
-            'delay': entry['delay'] if 'delay' in entry else 0
+            'delay': entry['delay']
         }
 
     return (settings['serial_port'], down_map, up_map)
