@@ -64,3 +64,13 @@ Index | Modifier Key
 `f`/5 | right shift
 `g`/6 | right alt
 `h`/7 | right cmd
+
+## Running the script
+
+Run this script by executin following statement:
+```
+python ./ard_key_mapper.py ./settings.json
+```
+You can execute this statement from anywhere - you should then adjust the paths for the python script and the `settings.json`.
+It is optional to give a path to a `settings.json`.
+If no argument is provided, the script will default to the local `settings.json`.
