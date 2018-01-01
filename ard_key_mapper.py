@@ -39,7 +39,11 @@ def handle_serial_input(serial_port, down_map, up_map):
                 keyboard.press_and_release(up_map[(ctrl, value)])
 
 if __name__ == '__main__':
-    with open(sys.argv[1], encoding='utf8') as settings_fp:
+    settings_path = 'settings.json'
+    if len(sys.argv) > 1:
+        settings_path = sys.argv[1]
+
+    with open(settings_path, encoding='utf8') as settings_fp:
         handle_arguments = load_settings_json(settings_fp)
         threading.Thread(target=handle_serial_input, daemon=True, args=handle_arguments).start()
 
