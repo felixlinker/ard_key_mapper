@@ -1,6 +1,7 @@
 import json
 import threading
 import sys
+import time
 import serial
 import keyboard
 
@@ -17,7 +18,10 @@ def load_settings_json(filepointer):
             m = up_map
 
         map_key = (int(event['ctrl'], 2), event['status_code'])
-        m[map_key] = entry['send']
+        m[map_key] = {
+            'combination': entry['send'],
+            'delay': entry['delay'] if 'delay' in entry else 0
+        }
 
     return (settings['serial_port'], down_map, up_map)
 
@@ -29,14 +33,27 @@ def handle_serial_input(serial_port, down_map, up_map):
         flag = ser.read()[0]
         value = ser.read()[0]
 
+        combination = ""
+        delay = 0
         if flag & 2:  # handle control button changes
             ctrl = value
         if flag & 1:  # handle press
             if (ctrl, value) in down_map:
-                keyboard.press_and_release(down_map[(ctrl, value)])
+                combination = down_map[(ctrl, value)]['combination']
+                delay = down_map[(ctrl, value)]['delay']
         elif not flag:  # handle release
             if (ctrl, value) in up_map:
-                keyboard.press_and_release(up_map[(ctrl, value)])
+                combination = up_map[(ctrl, value)]['combination']
+                delay = up_map[(ctrl, value)]['delay']
+
+        if combination:
+            if delay:
+                keyboard.press(combination)
+                time.sleep(delay)
+                keyboard.release(combination)
+            else:
+                keyboard.press_and_release(combination)
+
 
 if __name__ == '__main__':
     settings_path = 'settings.json'

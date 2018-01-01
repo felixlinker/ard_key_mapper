@@ -33,7 +33,8 @@ A `key_map` entry is composed as follows:
             "ctrl": "00000000",
             "status_code": 0
         },
-        "send": "shift+x"
+        "send": "shift+x",
+        "delay": 0.02
     }
 }
 ```
@@ -45,7 +46,7 @@ Field | Description
 `ctrl` | This field holds a value for the modifier button mask as string; see bellow for further information
 `status_code` | This field holds the value which key should be pressed; you can find out it's status code by loading the `watch_status_codes.ino` program onto your arduino.
 `send` | This field can holds any string that conforms to [the combination argument for keyboard.send](https://github.com/boppreh/keyboard#keyboard.send) of the python keyboard package.
-
+`delay` | This field holds a value for a delay between button press and release in seconds and is optional.
 
 ### Modifier button mask
 
